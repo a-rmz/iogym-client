@@ -72,7 +72,3 @@ new Vue({
   store: store,
   render: h => h(AppView)
 })
-
-// change this. demo
-window.bugsnagClient = window.bugsnag('02fe1c2caaf5874c50b6ee19534f5932')
-window.bugsnagClient.use(window.bugsnag__vue(Vue))

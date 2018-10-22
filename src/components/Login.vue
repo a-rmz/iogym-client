@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <img src="/static/img/logo.png" class="center-block logo">
+    <img src="/static/img/logo-round-white.svg" class="center-block logo">
 
     <div class="text-center col-sm-12">
       <!-- login form -->
@@ -135,18 +135,18 @@ body,
 
 .input-group {
   padding-bottom: 2em;
-  height: 4em;
+  height: 2em;
   width: 100%;
 }
 
-.input-group span.input-group-addon {
+.input-group span.input-group-addon:first-child {
   width: 2em;
-  height: 4em;
+  height: 2em;
 }
 
 @media (max-width: 1241px) {
   .input-group input {
-    height: 4em;
+    height: 2em;
   }
 }
 @media (min-width: 1242px) {
@@ -156,7 +156,7 @@ body,
   }
 
   .input-group input {
-    height: 6em;
+    height: 3em;
   }
 }
 
