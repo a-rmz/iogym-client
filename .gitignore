@@ -9,3 +9,4 @@ selenium-debug.log
 .netlify
 .*.dockerfile
 .vs
+.env

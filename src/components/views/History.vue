@@ -25,18 +25,32 @@
       <ul class="timeline">
         <!-- timeline time label -->
         <li class="time-label">
-          <span class="bg-green">{{today}}</span>
+          <span class="bg-green" data-toggle="tooltip" title="Today">{{today}}</span>
         </li>
         <!-- timeline item -->
-        <li v-for="(session, key) in timeline" :key="key">
+        <li v-for="(session, key) in sessions" :key="key">
           <!-- timeline icon -->
-          <i class="fa fa-dumbbell bg-green"></i>
-          <div class="timeline-item">
-            <span class="time" data-toggle="tooltip" :title="formatDate(session.date)"><i class="far fa-clock"></i>&nbsp;{{calculateTime(session.date)}}</span>
+          <i class="fa fa-dumbbell bg-green"
+             data-toggle="tooltip"
+             :title="getDate(session)"></i>
+          <div class="timeline-item" v-on:click="toggleDetail(session)">
+            <span
+              v-if="session.end_date"
+              class="time" data-toggle="tooltip"
+              :title="getTimeDifference(session)">
+              <i class="far fa-clock"></i>&nbsp;{{calculateDuration(session)}}
+            </span>
+            <span
+              v-else
+              class="time">
+              <i class="far fa-clock"></i>&nbsp;Active
+            </span>
             <h3 class="timeline-header">{{`${catpializeFirst(session.device_type)}`}}</h3>
             <div class="timeline-body">
               <p v-if="session.description">{{catpializeFirst(session.description)}}</p>
-              <p v-if="session.duration"><strong>Duration: </strong>{{toMinutes(session.duration)}}</p>
+              <div v-show="frames[session.session_id] && frames[session.session_id].visible">
+                <canvas :id="session.session_id"></canvas>
+              </div>
             </div>
             <div class="timeline-footer">
               <p>Gym: <a :href="`gyms?${session.gym_id}`">{{session.gym_name}}</a></p>
@@ -50,32 +64,84 @@
 </template>
 <script>
   import moment from 'moment'
-  import {sessions} from '../../demo'
+  import { mapState, mapActions, mapMutations } from 'vuex'
   import momentDurationFormatSetup from 'moment-duration-format'
+  import Chart from 'chart.js'
   momentDurationFormatSetup(moment)
 
   export default {
     name: 'History',
     computed: {
+      ...mapState([ 'sessions', 'frames' ]),
       today () {
         return moment().format('MMM Do YY')
-      },
-      timeline () {
-        return sessions
       }
     },
     methods: {
-      calculateTime (date) {
-        return moment(date).fromNow()
+      ...mapActions({
+        fetchSessions: 'fetchSessions',
+        fetchSessionFrames: 'fetchSessionFrames'
+      }),
+      ...mapMutations({
+        toggleFrames: 'TOGGLE_FRAMES'
+      }),
+      calculateDuration (session) {
+        const start = moment(session.start_time)
+        const end = moment(session.end_time)
+        return moment.duration(end.diff(start, 'minutes')).humanize()
       },
-      toMinutes (duration) {
-        return moment.duration(duration, 'minutes').format('mm:ss')
+      getTimeDifference (session) {
+        const start = moment(session.start_time)
+        const end = moment(session.end_time)
+        return `${start.format('hh:mm:ss')} - ${end.format('hh:mm:ss')}`
+      },
+      getDate (session) {
+        return this.formatDate(session.end_time)
       },
       catpializeFirst (word) {
         return word.charAt(0).toUpperCase() + word.slice(1)
       },
       formatDate (date) {
         return moment(date).format('dddd, MMMM DD, YYYY')
+      },
+      toggleDetail (session) {
+        const { session_id } = session
+        if (!this.frames[session_id]) {
+          this.fetchSessionFrames(session_id)
+            .then(() => {
+              const ctx = document.getElementById(session_id).getContext('2d')
+              const frames = this.frames[session_id].data
+
+              new Chart(ctx, {  // eslint-disable-line no-new
+                type: 'line',
+                data: {
+                  datasets: [{
+                    label: 'Activity',
+                    data: frames.map(f => ({ x: f.start_time, y: f.data })),
+                    borderColor: [
+                      '#f6bd60',
+                      '#f7ede2',
+                      '#f5cac3',
+                      '#84a59d',
+                      '#f28482'
+                    ]
+                  }]
+                },
+                options: {
+                  scales: {
+                    xAxes: [{
+                      type: 'time',
+                      time: {
+                        unit: 'minute'
+                      }
+                    }]
+                  }
+                }
+              })
+            })
+        } else {
+          this.toggleFrames(session_id)
+        }
       }
     }
   }

@@ -19,7 +19,7 @@
               <router-link to="/settings">
                 <!-- The user image in the navbar-->
                 <img v-bind:src="demo.avatar" class="user-image avatar" alt="User Image">
-                <span class="hidden-xs">{{ demo.displayName }}</span>
+                <span class="hidden-xs">{{ `${user.first_name} ${user.last_name}` }}</span>
               </router-link>
             </li>
           </ul>
@@ -39,8 +39,10 @@
         </h1>
         <ol class="breadcrumb">
           <li>
-            <a href="javascript:;">
+            <router-link to="/">
+              <!-- The user image in the navbar-->
               <i class="fa fa-home"></i>Home</a>
+            </router-link>
           </li>
           <li class="active">{{$route.name}}</li>
         </ol>
@@ -61,7 +63,7 @@
 
 <script>
 import faker from 'faker'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import config from '../config'
 import Sidebar from './Sidebar'
 import 'hideseek'
@@ -73,7 +75,6 @@ export default {
   },
   data: function () {
     return {
-      // section: 'Dash',
       year: new Date().getFullYear(),
       classes: {
         fixed_layout: config.fixedLayout,
@@ -84,21 +85,19 @@ export default {
   },
   computed: {
     ...mapState([
-      'userInfo'
+      'user'
     ]),
     demo () {
       return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
+        avatar: faker.image.avatar()
       }
     }
   },
   methods: {
-    changeloading () {
-      this.$store.commit('TOGGLE_SEARCHING')
-    }
+    ...mapActions([ 'fetchSessions' ])
+  },
+  mounted () {
+    this.fetchSessions()
   }
 }
 </script>

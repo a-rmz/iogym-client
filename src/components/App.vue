@@ -5,6 +5,8 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
+
   export default {
     name: 'App',
     data () {
@@ -13,6 +15,7 @@
       }
     },
     methods: {
+      ...mapActions([ 'fetchSessions', 'fetchGyms' ]),
       logout () {
         this.$store.commit('SET_USER', null)
         this.$store.commit('SET_TOKEN', null)
@@ -24,6 +27,10 @@
 
         this.$router.push('/login')
       }
+    },
+    mounted () {
+      this.fetchSessions()
+      this.fetchGyms()
     }
   }
 </script>
@@ -47,8 +54,9 @@ body {
   border-radius: 0 20px 20px 0 !important;
 }
 
+.input-group > input:first-child,
 :not(.input-group) > input {
   border-radius: 20px 20px 20px 20px !important;
-} 
+}
 </style>
 

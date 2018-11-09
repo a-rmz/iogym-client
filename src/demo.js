@@ -32,46 +32,6 @@ export const servers = [{
   description: 'Backup server'
 }]
 
-export const stats = [{
-  header: '8390',
-  text: 'Visitors'
-}, {
-  header: '30%',
-  text: 'Referrals'
-}, {
-  header: '70%',
-  text: 'Organic'
-}]
-
-/*
-export const timeline = [{
-  icon: 'fa-envelope',
-  color: 'blue',
-  title: 'Write short novel',
-  time: moment().endOf('day').fromNow(),
-  body: 'Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle quora plaxo ideeli hulu weebly balihoo...',
-  buttons: [{
-    type: 'primary',
-    message: 'Read more',
-    href: 'https://github.com/misterGF/CoPilot',
-    target: '_blank'
-  }]
-},
-{
-  icon: 'fa-user',
-  color: 'yellow',
-  title: 'Sarah Young accepted your friend request',
-  time: moment('20150620', 'MMM Do YY').fromNow()
-},
-{
-  icon: 'fa-camera',
-  color: 'purple',
-  title: 'Watch a youTube video',
-  time: moment('20130620', 'YYYYMMDD').fromNow(),
-  body: '<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="https://www.youtube.com/embed/8aGhZQkoFbQ" frameborder="0" allowfullscreen></iframe></div>'
-}]
-*/
-
 export const sessions = [
   {
     'session_id': 'b672afa2-1b03-4eb4-b76f-77807da15936',
@@ -114,3 +74,24 @@ export const gyms = [{
   'name': 'The Wall gym',
   'address': 'The Wall Av. 1234'
 }]
+
+export const usersAdmin = [
+  {
+    user_id: 'ab457b00-5907-4762-9307-90eba5072215',
+    rfid_code: 'ABBAFAE0',
+    first_name: 'Jon',
+    last_name: 'Snow',
+    is_admin: true,
+    email: 'jon@thewall.com',
+    birthday: '1900-01-01T00:00:00.000Z'
+  },
+  {
+    user_id: 'eec0111f-e121-4ac0-9650-c31dd62ede57',
+    rfid_code: '0F0FDAE7',
+    first_name: 'Daenerys',
+    last_name: 'Targaryen',
+    is_admin: false,
+    email: 'dany@targaryen.com',
+    birthday: '1900-01-01T00:00:00.000Z'
+  }
+]

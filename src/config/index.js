@@ -1,5 +1,5 @@
 export default {
-  serverURI: '',
+  serverURI: process.env.BASE_URI,
   fixedLayout: false,
   hideLogoOnMobile: false
 }

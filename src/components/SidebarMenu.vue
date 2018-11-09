@@ -27,11 +27,24 @@
         <span class="page">Settings</span>
       </a>
     </router-link>
+
+    <li v-if="isAdmin" class="header">Admin</li>
+    <router-link v-if="isAdmin" tag="li" class="pageLink" to="/admin">
+      <a>
+        <i class="fas fa-users"></i>
+        <span class="page">Users</span>
+      </a>
+    </router-link>
   </ul>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'SidebarMenu'
+  name: 'SidebarMenu',
+  computed: {
+    ...mapGetters([ 'isAdmin' ])
+  }
 }
 </script>
 <style>

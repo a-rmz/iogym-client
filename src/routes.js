@@ -7,6 +7,7 @@ import DashboardView from './components/views/Dashboard.vue'
 import HistoryView from './components/views/History.vue'
 import SettingView from './components/views/Setting.vue'
 import GymsView from './components/views/Gyms.vue'
+import UserAdminView from './components/views/UserAdmin.vue'
 
 // Routes
 const routes = [
@@ -39,6 +40,11 @@ const routes = [
         component: GymsView,
         name: 'Gyms',
         meta: {description: 'My active gyms'}
+      }, {
+        path: 'admin',
+        component: UserAdminView,
+        name: 'User Admin',
+        meta: {description: 'Admin panel'}
       }
     ]
   }, {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="text-center">My Gyms</h1>
-    <section class="content">
+    <section class="content" style="top:100%">
       <div class="row">
         <div v-for="(gym, key) in gyms" :key="key" class="col-md-3">
           <div class="box box-info">
@@ -16,12 +16,18 @@
 
 <script>
 require('moment')
-import {gyms} from '../../demo'
+import { mapState, mapActions } from 'vuex'
 
 export default {
+  name: 'Gyms',
   computed: {
-    gyms() { return gyms }
+    ...mapState([ 'gyms' ])
   },
-  name: 'Gyms'
+  methods: {
+    ...mapActions([ 'fetchGyms' ])
+  },
+  mounted () {
+    this.fetchGyms()
+  }
 }
 </script>

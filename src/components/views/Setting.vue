@@ -7,11 +7,28 @@
           <div class="box box-info">
             <!-- Input Addons -->
             <div class="box-header with-border">
-              <h3 class="box-title">Inputs</h3>
+              <h3 class="box-title"><i class="fa fa-user"></i>&nbsp User profile</h3>
             </div>
 
             <div class="box-body">
-              <!-- calendar group -->
+
+              <h4>Name</h4>
+              <div class="input-group">
+                <input class="form-control" placeholder="First name" type="text">
+              </div>
+              <div class="input-group">
+                <input class="form-control" placeholder="Last name" type="text">
+              </div>
+              <br />
+
+              <h4>Email</h4>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
+                <input class="form-control" placeholder="Email" type="email">
+              </div>
+              <br />
+
+              <h4>Birthday</h4>
               <div class="input-group">
                 <span class="input-group-addon">
                   <i class="fa fa-fw fa-calendar"></i>
@@ -21,75 +38,20 @@
               <br />
               <br />
 
-              <!-- with characthers -->
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-fw fa-at" aria-hidden="true"></i>
-                </span>
-                <input class="form-control" placeholder="Username" type="text">
-              </div>
-              <br />
-              <div class="input-group">
-                <span class="input-group-addon">
-                  <i class="fa fa-fw fa-usd" aria-hidden="true"></i>
-                </span>
-                <input class="form-control" type="text">
-                <span class="input-group-addon">.00</span>
-              </div>
-              <br />
-
-              <!-- with icons from font awesome -->
-              <h4>With icons</h4>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-envelope"></i></span>
-                <input class="form-control" placeholder="Email" type="email">
-              </div>
-              <br />
-              <div class="input-group">
-                <input class="form-control" type="text">
-                <span class="input-group-addon"><i class="fa fa-fw fa-check"></i></span>
-              </div>
-              <br>
-
               <!-- Success/Error heads up input -->
-              <h4>With border indicator</h4>
-              <div class="form-group has-success">
-                <label class="control-label" for="inputSuccess"><i class="fa fa-fw fa-check"></i> Input with success</label>
-                <input class="form-control" id="inputSuccess" placeholder="Enter ..." type="text">
-                <span class="help-block">Help block with success</span>
+              <h4>Personal information</h4>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-weight"></i></span>
+                <input class="form-control" placeholder="Weight" type="number" min=0 max=300 step=0.1>
+                <span class="input-group-addon">m</span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-fw fa-ruler"></i></span>
+                <input class="form-control" placeholder="Height" type="number" min=0 max=3 step=0.01>
+                <span class="input-group-addon">kg</span>
               </div>
               <br />
-              <div class="form-group has-error">
-                <label class="control-label" for="inputError"><i class="fa fa-fw fa-times-circle-o"></i> Input with error</label>
-                <input class="form-control" id="inputError" placeholder="Enter ..." type="text">
-                <span class="help-block">Help block with error</span>
-              </div>
 
-              <!-- select examples -->
-              <h4>Select Options</h4>
-              <div class="form-group">
-                <label>Select</label>
-                <select class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
-                </select>
-              </div>
-              <br />
-              <div class="form-group">
-                <label>Select Multiple</label>
-                <select multiple="" class="form-control">
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                  <option>option 4</option>
-                  <option>option 5</option>
-                </select>
-              </div>
-
-              <!-- /input-group -->
             </div>
             <!-- /.box-body -->
           </div>
