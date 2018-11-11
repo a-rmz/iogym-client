@@ -63,7 +63,7 @@
 
 <script>
 import faker from 'faker'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 import config from '../config'
 import Sidebar from './Sidebar'
 import 'hideseek'
@@ -92,12 +92,6 @@ export default {
         avatar: faker.image.avatar()
       }
     }
-  },
-  methods: {
-    ...mapActions([ 'fetchSessions' ])
-  },
-  mounted () {
-    this.fetchSessions()
   }
 }
 </script>
