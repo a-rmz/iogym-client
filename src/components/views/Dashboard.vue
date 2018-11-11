@@ -27,10 +27,8 @@
         <div class='box-header with-border'>
           <h3 class='box-title'></h3>
           <div class='box-body'>
-            <div class=''>
-              <h2 class='text-center'>Activity</h2>
-              <div id='heatmap'></div>
-            </div>
+            <h2 class='text-center'>Activity</h2>
+            <figure id='heatmap'></figure>
           </div>
         </div>
       </div>
@@ -80,16 +78,22 @@ export default {
       sessions: 'heatmapSessions'
     })
   },
+  methods: {
+    drawHeatMap () {
+      new Chart('#heatmap', { // eslint-disable-line
+        type: 'heatmap',
+        data: {
+          dataPoints: { ...this.sessions },
+          start: moment().subtract(11, 'month').toDate(),
+          end: moment().add(1, 'month').toDate()
+        },
+        discreteDomains: '1'
+      })
+    }
+  },
   mounted () {
-    console.log(this.sessions)
-    new Chart('#heatmap', { // eslint-disable-line
-      type: 'heatmap',
-      data: {
-        dataPoints: { ...this.sessions },
-        startDate: moment().subtract(1, 'year').unix(),
-        endDate: moment().unix()
-      },
-      discreteDomains: '1'
+    this.$store.watch(() => Object.keys(this.sessions).length > 0, () => {
+      this.drawHeatMap()
     })
   }
 }
