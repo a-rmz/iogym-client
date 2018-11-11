@@ -92,7 +92,8 @@ export default {
     }
   },
   mounted () {
-    this.$store.watch(() => Object.keys(this.sessions).length > 0, () => {
+    this.drawHeatMap()
+    this.$store.watch((state, getters) => state.sessions.length > 0, () => {
       this.drawHeatMap()
     })
   }
