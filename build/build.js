@@ -2,6 +2,7 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
+require('dotenv').config({ path: '.env' })
 var ora = require('ora')
 var rm = require('rimraf')
 var path = require('path')
