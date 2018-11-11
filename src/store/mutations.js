@@ -15,7 +15,7 @@ export default {
     state.token = token
   },
   SET_SESSIONS (state, sessions) {
-    state.sessions = sessions
+    state.sessions = [ ...sessions ]
     cache.set('sessions', sessions, CACHE_TTL)
   },
   SET_FRAMES (state, frames) {
@@ -33,5 +33,8 @@ export default {
   },
   SET_USERS (state, { gym_id, users }) {
     state.users = { ...state.users, [gym_id]: users }
+  },
+  REMOVE_USER (state, { gymId, userId }) {
+    state.users[gymId] = [ ...state.users[gymId].filter(user => user.user_id !== userId) ]
   }
 }

@@ -51,5 +51,15 @@ export default {
     } else {
       commit('SET_USERS', users)
     }
+  },
+  refreshUsersByGym ({ commit }, gymId) {
+    api
+      .request('GET', `/gyms/${gymId}/users`)
+      .then(response => commit('SET_USERS', { gym_id: gymId, users: response.data.users }))
+  },
+  removeUser ({ commit }, { gymId, userId }) {
+    api
+      .request('DELETE', `/gyms/${gymId}/users/${userId}`)
+      .then(() => commit('REMOVE_USER', { gymId, userId }))
   }
 }

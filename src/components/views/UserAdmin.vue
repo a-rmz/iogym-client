@@ -2,8 +2,11 @@
   <div>
     <section class="content" style="top:100%">
       <div class="row center-block">
-        <button type="button" class="btn btn-success" style="float:right;">
+        <button type="button" class="btn btn-success" style="margin-left:1em;float:right;">
           Add user <span><i class="fas fa-plus-circle"></i></span>
+        </button>
+        <button type="button" class="btn btn-info" style="float:right;" v-on:click="refreshUsersByGym(activeGym.gym_id)">
+          Refresh <span><i class="fas fa-sync-alt"></i></span>
         </button>
       </div>
       <br/>
@@ -16,7 +19,19 @@
               <a :href="`mailto:${user.email}`">{{user.email}}</a>
             </div>
             <div class="box-footer">
-              <button type="button" class="btn btn-danger" style="float:right;">Deactivate account</button>
+              <button type="button" v-bind:id="`delete-${user.user_id}`" class="btn btn-danger" style="float:right;"
+                                    v-on:click="toggle(user.user_id)" >
+                Deactivate account
+              </button>
+              <button type="button" v-bind:id="`confirm-${user.user_id}`" style="float:right;"
+                      v-on:click="toggle(user.user_id);removeUser({ gymId: activeGym.gym_id, userId: user.user_id })"
+                      class="btn btn-outline-danger hidden" >
+                Confirm
+              </button>
+              <button type="button" v-bind:id="`cancel-${user.user_id}`" style="float:right;"
+                                    v-on:click="toggle(user.user_id)" class="btn btn-link hidden" >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -34,14 +49,19 @@ export default {
   computed: {
     ...mapState({
       gyms: 'gyms',
-      activeGym: state => state.gyms.find(gym => gym.is_admin),
+      activeGym: state => (state.gyms) ? state.gyms.find(gym => gym.is_admin) : {},
       users: state => state.users[state.gyms.find(gym => gym.is_admin).gym_id]
     })
   },
   methods: {
-    ...mapActions([ 'fetchUsersByGym' ]),
+    ...mapActions([ 'fetchUsersByGym', 'refreshUsersByGym', 'removeUser' ]),
     formatBirthday (date) {
       return moment(date).format('DD/MM/YYYY')
+    },
+    toggle (id) {
+      document.getElementById(`delete-${id}`).classList.toggle('hidden')
+      document.getElementById(`confirm-${id}`).classList.toggle('hidden')
+      document.getElementById(`cancel-${id}`).classList.toggle('hidden')
     }
   },
   mounted () {
@@ -49,3 +69,30 @@ export default {
   }
 }
 </script>
+
+<style>
+.hidden {
+  display: none;
+}
+
+.btn {
+  border: 0;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  background-color: transparent;
+  background-image: none;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:focus, .btn-outline-danger.focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+</style>
