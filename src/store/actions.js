@@ -1,4 +1,6 @@
 import cache from 'lscache'
+import moment from 'moment'
+
 import api from '../api'
 
 export default {
@@ -19,13 +21,13 @@ export default {
     const frames = cache.get(`frames-${sessionId}`)
 
     if (!frames) {
-      api
+      return api
         .request('GET', `/sessions/${sessionId}/frames`)
         .then(response => {
           commit('SET_FRAMES', { sessionId, frames: response.data.frames.map(f => ({ ...f, visible: false })) })
         })
     } else {
-      commit('SET_FRAMES', { sessionId, frames })
+      return Promise.resolve(commit('SET_FRAMES', { sessionId, frames }))
     }
   },
   fetchGyms ({ commit, state }) {
@@ -57,9 +59,29 @@ export default {
       .request('GET', `/gyms/${gymId}/users`)
       .then(response => commit('SET_USERS', { gym_id: gymId, users: response.data.users }))
   },
+  addUser({ commit }, { user, gymId }) {
+    const formattedUser = {
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+      birthday: moment(user.birthday).format('MM/D/YYYY'),
+      rfid_code: user.rfidCode
+    }
+
+    return api
+      .request('POST', '/users', formattedUser)
+      .then(response => {
+        commit('ADD_USER', { user: response.data.user, gymId })
+        return response.data.user.user_id
+      })
+      .then(user_id => api.request('POST', `/gyms/${gymId}/users/${user_id}`, { is_admin: false }))
+      .catch(console.error)
+  },
   removeUser ({ commit }, { gymId, userId }) {
     api
       .request('DELETE', `/gyms/${gymId}/users/${userId}`)
       .then(() => commit('REMOVE_USER', { gymId, userId }))
+      .then(() => api.request('DELETE', `/users/${userId}`))
+      .catch(console.error)
   }
 }

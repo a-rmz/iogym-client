@@ -2,7 +2,8 @@
   <div>
     <section class="content" style="top:100%">
       <div class="row center-block">
-        <button type="button" class="btn btn-success" style="margin-left:1em;float:right;">
+        <button type="button" class="btn btn-success" v-show="!isAddingUser"
+                style="margin-left:1em;float:right;" v-on:click="isAddingUser=!isAddingUser">
           Add user <span><i class="fas fa-plus-circle"></i></span>
         </button>
         <button type="button" class="btn btn-info" style="float:right;" v-on:click="refreshUsersByGym(activeGym.gym_id)">
@@ -10,6 +11,11 @@
         </button>
       </div>
       <br/>
+      <div v-show="isAddingUser" class="row center-block">
+        <add-user-form
+          v-on:cancel="closeForm"
+          v-on:submit="submitForm"></add-user-form>
+      </div>
       <div class="row">
         <div v-for="(user, key) in users" :key="key" class="col-md-3">
           <div class="box box-info">
@@ -41,11 +47,20 @@
 </template>
 
 <script>
+import AddUserForm from '@/components/AddUserForm'
 import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
   name: 'UserAdmin',
+  components: {
+    AddUserForm
+  },
+  data () {
+    return {
+      isAddingUser: false
+    }
+  },
   computed: {
     ...mapState({
       gyms: 'gyms',
@@ -54,7 +69,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions([ 'fetchUsersByGym', 'refreshUsersByGym', 'removeUser' ]),
+    ...mapActions([ 'fetchUsersByGym', 'refreshUsersByGym', 'addUser', 'removeUser' ]),
     formatBirthday (date) {
       return moment(date).format('DD/MM/YYYY')
     },
@@ -62,6 +77,13 @@ export default {
       document.getElementById(`delete-${id}`).classList.toggle('hidden')
       document.getElementById(`confirm-${id}`).classList.toggle('hidden')
       document.getElementById(`cancel-${id}`).classList.toggle('hidden')
+    },
+    submitForm (user) {
+      this.addUser({ user, gymId: this.activeGym.gym_id })
+        .then(() => this.closeForm())
+    },
+    closeForm () {
+      this.isAddingUser = false
     }
   },
   mounted () {

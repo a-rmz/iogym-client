@@ -62,7 +62,7 @@
 </template>
 <script>
 require('moment')
-import datepicker from 'vue-date-picker'
+import datepicker from 'vuejs-datepicker'
 
 export default {
   name: 'Settings',

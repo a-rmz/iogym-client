@@ -24,7 +24,13 @@ export default {
   },
   TOGGLE_FRAMES (state, session_id) {
     const previousState = state.frames[session_id].visible
-    state.frames = { ...state.frames, [session_id]: { data: state.frames[session_id].data, visible: !previousState } }
+    state.frames = {
+      ...state.frames,
+      [session_id]: {
+        data: state.frames[session_id].data,
+        visible: !previousState
+      }
+    }
     cache.set(`frames-${frames.sessionId}`, frames.frames, CACHE_TTL)
   },
   SET_GYMS (state, gyms) {
@@ -33,6 +39,9 @@ export default {
   },
   SET_USERS (state, { gym_id, users }) {
     state.users = { ...state.users, [gym_id]: users }
+  },
+  ADD_USER (state, { gymId, user }) {
+    state.users[gymId] = [ ...state.users[gymId], user ]
   },
   REMOVE_USER (state, { gymId, userId }) {
     state.users[gymId] = [ ...state.users[gymId].filter(user => user.user_id !== userId) ]
