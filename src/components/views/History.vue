@@ -117,7 +117,7 @@
                 data: {
                   datasets: [{
                     label: 'Activity',
-                    data: frames.map(f => ({ x: f.start_time, y: f.data })),
+                    data: frames.map(f => ({ x: f.start_time, y: (f.data * 1000) })),
                     borderColor: [
                       '#f6bd60',
                       '#f7ede2',
