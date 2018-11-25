@@ -18,17 +18,11 @@ export default {
     }
   },
   fetchSessionFrames ({ commit, state }, sessionId) {
-    const frames = cache.get(`frames-${sessionId}`)
-
-    if (!frames) {
-      return api
+    return api
         .request('GET', `/sessions/${sessionId}/frames`)
         .then(response => {
           commit('SET_FRAMES', { sessionId, frames: response.data.frames.map(f => ({ ...f, visible: false })) })
         })
-    } else {
-      return Promise.resolve(commit('SET_FRAMES', { sessionId, frames }))
-    }
   },
   fetchGyms ({ commit, state }) {
     const gyms = cache.get('gyms')

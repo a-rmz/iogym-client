@@ -20,7 +20,6 @@ export default {
   },
   SET_FRAMES (state, frames) {
     state.frames = { ...state.frames, [frames.sessionId]: { data: frames.frames, visible: true } }
-    cache.set(`frames-${frames.sessionId}`, frames.frames, CACHE_TTL)
   },
   TOGGLE_FRAMES (state, session_id) {
     const previousState = state.frames[session_id].visible
@@ -31,7 +30,6 @@ export default {
         visible: !previousState
       }
     }
-    cache.set(`frames-${frames.sessionId}`, frames.frames, CACHE_TTL)
   },
   SET_GYMS (state, gyms) {
     state.gyms = gyms
